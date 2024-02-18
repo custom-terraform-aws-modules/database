@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# Run terraform fmt on all .tf files in the repository
+terraform_files=$(git diff --cached --name-only --diff-filter=ACMRTUXB | grep -E '\.tf$|\.tftest.hcl$')
+if [ -n "$terraform_files" ]; then
+    echo "Formatting Terraform files..."
+    terraform fmt -write=true $terraform_files
+    git add $terraform_files
+fi
+
+exit 0
