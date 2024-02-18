@@ -10,5 +10,8 @@ output "secrets_arn" {
 
 output "get_secrets_policy" {
   description = "An object of IAM policy to allow read access of the SecretsManager"
-  value       = try(aws_secretsmanager_secret.rds.arn, null)
+  value = {
+    name   = local.policy_name
+    policy = data.aws_iam_policy_document.secrets.json
+  }
 }
