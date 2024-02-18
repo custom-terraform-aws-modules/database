@@ -14,10 +14,11 @@ This module provides a PostgreSQL RDS instance, an optional RDS proxy and a Secr
 
 ## Requirements
 
-| Name      | Version |
-| --------- | ------- |
-| terraform | >= 1.0  |
-| aws       | >= 5.20 |
+| Name      | Version  |
+| --------- | -------- |
+| terraform | >= 1.0   |
+| aws       | >= 5.20  |
+| random    | >= 3.6.0 |
 
 ## Inputs
 
