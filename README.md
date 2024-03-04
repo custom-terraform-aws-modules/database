@@ -36,7 +36,7 @@ This module provides a PostgreSQL RDS instance, an optional RDS proxy and a Secr
 | db_username         | Username of the master user in the RDS instance.                                                                                                                                                                                                    | `string`       | "postgres"                 |    no    |
 | db_password         | Password of the master user in the RDS instance.                                                                                                                                                                                                    | `string`       | random 32 character string |    no    |
 | proxy               | An object for the definition of a RDS proxy for the RDS instance.                                                                                                                                                                                   | `object`       | null                       |    no    |
-| tags                | A map of tags to add to all resources. Name is always set as tag and the other tags will be appended.                                                                                                                                               | `map(string)`  | {}                         |    no    |
+| tags                | A map of tags to add to all resources.                                                                                                                                                                                                              | `map(string)`  | {}                         |    no    |
 
 ### `proxy`
 
@@ -50,18 +50,10 @@ This module provides a PostgreSQL RDS instance, an optional RDS proxy and a Secr
 
 ## Outputs
 
-| Name               | Description                                                                               |
-| ------------------ | ----------------------------------------------------------------------------------------- |
-| security_group     | The ID of the security group to allow services access to the RDS instance.                |
-| secrets_arn        | The ARN of the SecretsManager which holds secrets for the connection to the RDS instance. |
-| get_secrets_policy | An object of IAM policy to allow read access of the SecretsManager.                       |
-
-### `get_secrets_policy`
-
-| Name   | Description                                                                       |
-| ------ | --------------------------------------------------------------------------------- |
-| name   | The Name of the IAM policy for reference in `inline_plolicy` blocks of IAM roles. |
-| policy | The IAM policy JSON encoded.                                                      |
+| Name           | Description                                                                               |
+| -------------- | ----------------------------------------------------------------------------------------- |
+| security_group | The ID of the security group to allow services access to the RDS instance.                |
+| secrets_arn    | The ARN of the SecretsManager which holds secrets for the connection to the RDS instance. |
 
 ## Example
 
@@ -70,7 +62,6 @@ module "database" {
   source = "github.com/custom-terraform-aws-modules/database"
 
   identifier          = "example-database-dev"
-  name                = "example-database"
   instance_class      = "db.t3.micro"
   engine_version      = "16.1"
   allocated_storage   = 20

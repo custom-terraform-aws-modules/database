@@ -22,10 +22,7 @@ resource "aws_security_group" "proxy" {
   description = "Allows RDS proxy to access the RDS instance and other services to access the RDS proxy"
   vpc_id      = var.vpc_id
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags
-  )
+  tags = var.tags
 }
 
 resource "aws_security_group" "rds" {
@@ -33,10 +30,7 @@ resource "aws_security_group" "rds" {
   description = var.proxy != null ? "Allows RDS instance to be accessed by RDS proxy" : "Allows RDS instance to be accessed by services"
   vpc_id      = var.vpc_id
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags
-  )
+  tags = var.tags
 }
 
 resource "aws_security_group" "external" {
@@ -44,10 +38,7 @@ resource "aws_security_group" "external" {
   description = var.proxy != null ? "Allows services to access the RDS proxy" : "Allows services to access the RDS instance"
   vpc_id      = var.vpc_id
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags
-  )
+  tags = var.tags
 }
 
 resource "aws_vpc_security_group_egress_rule" "proxy" {
@@ -93,10 +84,7 @@ resource "aws_db_subnet_group" "main" {
   description = "Groups subnets for RDS instance"
   subnet_ids  = var.subnets
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags
-  )
+  tags = var.tags
 }
 
 resource "aws_db_instance" "main" {
@@ -113,10 +101,7 @@ resource "aws_db_instance" "main" {
   db_subnet_group_name   = aws_db_subnet_group.main.name
   vpc_security_group_ids = [aws_security_group.rds.id]
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags
-  )
+  tags = var.tags
 }
 
 ################################
@@ -128,10 +113,7 @@ resource "aws_secretsmanager_secret" "proxy" {
   name                    = "${var.identifier}-rds-proxy"
   recovery_window_in_days = 0
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags
-  )
+  tags = var.tags
 }
 
 # RDS Proxy uses these secrets with exact key match to connect to the RDS instance
@@ -187,10 +169,7 @@ resource "aws_iam_role" "proxy" {
     policy = data.aws_iam_policy_document.proxy[0].json
   }
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags
-  )
+  tags = var.tags
 }
 
 resource "aws_db_proxy" "main" {
@@ -211,10 +190,7 @@ resource "aws_db_proxy" "main" {
     secret_arn  = aws_secretsmanager_secret.proxy[0].arn
   }
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags
-  )
+  tags = var.tags
 }
 
 resource "aws_db_proxy_default_target_group" "main" {
@@ -243,10 +219,7 @@ resource "aws_secretsmanager_secret" "rds" {
   name                    = "${var.identifier}-rds"
   recovery_window_in_days = 0
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags
-  )
+  tags = var.tags
 }
 
 resource "aws_secretsmanager_secret_version" "rds" {
@@ -258,19 +231,4 @@ resource "aws_secretsmanager_secret_version" "rds" {
     DB_USER = var.db_username
     DB_PASS = local.db_password
   })
-}
-
-# IAM policy document which is exported from this module through outputs.tf
-locals {
-  policy_name = "${var.identifier}-GetRDSSecrets"
-}
-
-data "aws_iam_policy_document" "secrets" {
-  statement {
-    effect = "Allow"
-
-    actions = ["secretsmanager:GetSecretValue"]
-
-    resources = [aws_secretsmanager_secret.rds.arn]
-  }
 }

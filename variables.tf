@@ -1,34 +1,28 @@
 variable "identifier" {
-  description = "Unique identifier to differentiate global resources"
+  description = "Unique identifier to differentiate global resources."
   type        = string
-}
-
-variable "name" {
-  description = "Name of this module which is used as identifier on all resources"
-  type        = string
-  default     = ""
 }
 
 variable "instance_class" {
-  description = "The instance class of the RDS instance"
+  description = "The instance class of the RDS instance."
   type        = string
   default     = "db.t3.micro"
 }
 
 variable "engine_version" {
-  description = "The PostgreSQL engine version for the RDS instance"
+  description = "The PostgreSQL engine version for the RDS instance."
   type        = string
   default     = "16.1"
 }
 
 variable "allocated_storage" {
-  description = "Storage capacity of the RDS instance in GigiBytes"
+  description = "Storage capacity of the RDS instance in GigiBytes."
   type        = number
   default     = 20
 }
 
 variable "vpc_id" {
-  description = "ID of the subnets' VPC"
+  description = "ID of the subnets' VPC."
   type        = string
   validation {
     condition     = startswith(var.vpc_id, "vpc-")
@@ -37,7 +31,7 @@ variable "vpc_id" {
 }
 
 variable "subnets" {
-  description = "A list of IDs of subnets for the subnet group and potentially the RDS proxy"
+  description = "A list of IDs of subnets for the subnet group and potentially the RDS proxy."
   type        = list(string)
   validation {
     condition     = length(var.subnets) > 1
@@ -50,13 +44,13 @@ variable "subnets" {
 }
 
 variable "skip_final_snapshot" {
-  description = "A flag for wether or not skipping the creation of a final snapshot befor deletion of the RDS instance"
+  description = "A flag for wether or not skipping the creation of a final snapshot befor deletion of the RDS instance."
   type        = bool
   default     = true
 }
 
 variable "db_name" {
-  description = "Name of the database initially created in the RDS instance"
+  description = "Name of the database initially created in the RDS instance."
   type        = string
   default     = "postgres"
   validation {
@@ -66,7 +60,7 @@ variable "db_name" {
 }
 
 variable "db_username" {
-  description = "Username of the master user in the RDS instance"
+  description = "Username of the master user in the RDS instance."
   type        = string
   default     = "postgres"
   validation {
@@ -76,7 +70,7 @@ variable "db_username" {
 }
 
 variable "db_password" {
-  description = "Password of the master user in the RDS instance"
+  description = "Password of the master user in the RDS instance."
   type        = string
   default     = null
   validation {
@@ -86,7 +80,7 @@ variable "db_password" {
 }
 
 variable "proxy" {
-  description = "An object for the definition of a RDS proxy for the RDS instance"
+  description = "An object for the definition of a RDS proxy for the RDS instance."
   type = object({
     debug_logging                = bool
     idle_client_timeout          = number
@@ -98,11 +92,7 @@ variable "proxy" {
 }
 
 variable "tags" {
-  description = "A map of tags to add to all resources"
+  description = "A map of tags to add to all resources."
   type        = map(string)
   default     = {}
-  validation {
-    condition     = !contains(keys(var.tags), "Name")
-    error_message = "Name tag is reserved and will be used automatically"
-  }
 }
