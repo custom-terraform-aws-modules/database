@@ -12,7 +12,7 @@ run "valid_proxy" {
 
   variables {
     identifier = "test"
-    vpc_id     = "vpc-01234567890abcdef"
+    vpc        = "vpc-01234567890abcdef"
     subnets    = ["subnet-1242421", "subnet-2344898"]
 
     proxy = {
@@ -75,7 +75,7 @@ run "no_proxy" {
 
   variables {
     identifier = "test"
-    vpc_id     = "vpc-01234567890abcdef"
+    vpc        = "vpc-01234567890abcdef"
     subnets    = ["subnet-1242421", "subnet-2344898"]
 
     proxy = null

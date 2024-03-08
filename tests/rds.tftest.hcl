@@ -12,11 +12,11 @@ run "invalid_vpc_id" {
 
   variables {
     identifier = "test"
-    vpc_id     = "abc-01234567890abcdef"
+    vpc        = "abc-01234567890abcdef"
     subnets    = ["subnet-1242421", "subnet-2344898"]
   }
 
-  expect_failures = [var.vpc_id]
+  expect_failures = [var.vpc]
 }
 
 run "invalid_subnets_length" {
@@ -24,7 +24,7 @@ run "invalid_subnets_length" {
 
   variables {
     identifier = "test"
-    vpc_id     = "vpc-01234567890abcdef"
+    vpc        = "vpc-01234567890abcdef"
     subnets    = ["subnet-2344898"]
   }
 
@@ -36,7 +36,7 @@ run "invalid_subnets" {
 
   variables {
     identifier = "test"
-    vpc_id     = "vpc-01234567890abcdef"
+    vpc        = "vpc-01234567890abcdef"
     subnets    = ["subnet-2344898", "foobar-2344898"]
   }
 
@@ -48,7 +48,7 @@ run "invalid_db_name" {
 
   variables {
     identifier = "test"
-    vpc_id     = "vpc-01234567890abcdef"
+    vpc        = "vpc-01234567890abcdef"
     subnets    = ["subnet-2344898", "subnet-2344898"]
     db_name    = "ab"
   }
@@ -61,7 +61,7 @@ run "invalid_db_username" {
 
   variables {
     identifier  = "test"
-    vpc_id      = "vpc-01234567890abcdef"
+    vpc         = "vpc-01234567890abcdef"
     subnets     = ["subnet-2344898", "subnet-2344898"]
     db_username = "ab"
   }
@@ -74,7 +74,7 @@ run "invalid_db_password" {
 
   variables {
     identifier  = "test"
-    vpc_id      = "vpc-01234567890abcdef"
+    vpc         = "vpc-01234567890abcdef"
     subnets     = ["subnet-2344898", "subnet-2344898"]
     db_password = "passwor"
   }

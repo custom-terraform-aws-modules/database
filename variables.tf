@@ -21,11 +21,11 @@ variable "allocated_storage" {
   default     = 20
 }
 
-variable "vpc_id" {
+variable "vpc" {
   description = "ID of the subnets' VPC."
   type        = string
   validation {
-    condition     = startswith(var.vpc_id, "vpc-")
+    condition     = startswith(var.vpc, "vpc-")
     error_message = "Must be valid VPC ID"
   }
 }

@@ -29,7 +29,7 @@ This module provides a PostgreSQL RDS instance, an optional RDS proxy and a Secr
 | instance_class      | The instance class of the RDS instance. Must be one of the [supported RDS instance classes](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html).                                                                  | `string`       | "db.t3.micro"              |    no    |
 | engine_version      | The PostgreSQL engine version for the RDS instance. Must be one of the [supported RDS postgres engine versions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts.General.FeatureSupport.Extensions). | `string`       | "16.1"                     |    no    |
 | allocated_storage   | Storage capacity of the RDS instance in GigiBytes.                                                                                                                                                                                                  | `number`       | 20                         |    no    |
-| vpc_id              | ID of the subnets' VPC.                                                                                                                                                                                                                             | `string`       | n/a                        |   yes    |
+| vpc                 | ID of the subnets' VPC.                                                                                                                                                                                                                             | `string`       | n/a                        |   yes    |
 | subnets             | A list of IDs of subnets for the subnet group and potentially the RDS proxy.                                                                                                                                                                        | `list(string)` | n/a                        |   yes    |
 | skip_final_snapshot | A flag for wether or not skipping the creation of a final snapshot befor deletion of the RDS instance.                                                                                                                                              | `bool`         | true                       |    no    |
 | db_name             | Name of the database initially created in the RDS instance.                                                                                                                                                                                         | `string`       | "postgres"                 |    no    |
@@ -65,7 +65,7 @@ module "database" {
   instance_class      = "db.t3.micro"
   engine_version      = "16.1"
   allocated_storage   = 20
-  vpc_id              = "vpc-01234567890abcdef"
+  vpc                 = "vpc-01234567890abcdef"
   subnets             = ["subnet-1242421", "subnet-2344898"]
   skip_final_snapshot = true
   db_name             = "postgres"

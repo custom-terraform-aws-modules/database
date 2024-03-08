@@ -20,7 +20,7 @@ resource "aws_security_group" "proxy" {
   count       = var.proxy != null ? 1 : 0
   name        = "${var.identifier}-rds-proxy"
   description = "Allows RDS proxy to access the RDS instance and other services to access the RDS proxy"
-  vpc_id      = var.vpc_id
+  vpc_id      = var.vpc
 
   tags = var.tags
 }
@@ -28,7 +28,7 @@ resource "aws_security_group" "proxy" {
 resource "aws_security_group" "rds" {
   name        = "${var.identifier}-rds"
   description = var.proxy != null ? "Allows RDS instance to be accessed by RDS proxy" : "Allows RDS instance to be accessed by services"
-  vpc_id      = var.vpc_id
+  vpc_id      = var.vpc
 
   tags = var.tags
 }
@@ -36,7 +36,7 @@ resource "aws_security_group" "rds" {
 resource "aws_security_group" "external" {
   name        = "${var.identifier}-external"
   description = var.proxy != null ? "Allows services to access the RDS proxy" : "Allows services to access the RDS instance"
-  vpc_id      = var.vpc_id
+  vpc_id      = var.vpc
 
   tags = var.tags
 }
