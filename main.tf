@@ -1,8 +1,9 @@
 # create random string for database password if it is not provided
 resource "random_string" "db_password" {
-  count   = var.db_password != null ? 0 : 1
-  length  = 32
-  special = true
+  count            = var.db_password != null ? 0 : 1
+  length           = 32
+  special          = true
+  override_special = "!#$%&*()-_=+[]{}<>:?" // exclude @ as it is not allowed in a postgres password
 }
 
 locals {
