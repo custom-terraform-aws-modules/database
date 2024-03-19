@@ -1,0 +1,24 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: ["Test"]
+    types: [completed]
+    branches: ["main"]
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  release:
+    runs-on: "ubuntu-latest"
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - uses: rymndhng/release-on-push-action@master
+        with:
+          bump_version_scheme: minor
+          tag_prefix: v
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
