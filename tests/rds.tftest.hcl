@@ -7,6 +7,28 @@ provider "aws" {
   }
 }
 
+run "invalid_identifier" {
+  command = plan
+
+  variables {
+    identifier = "ab"
+    vpc        = "vpc-01234567890abcdef"
+    subnets    = ["subnet-2344898", "subnet-2344898"]
+  }
+
+  expect_failures = [var.identifier]
+}
+
+run "valid_identifier" {
+  command = plan
+
+  variables {
+    identifier = "abc"
+    vpc        = "vpc-01234567890abcdef"
+    subnets    = ["subnet-2344898", "subnet-2344898"]
+  }
+}
+
 run "invalid_vpc_id" {
   command = plan
 

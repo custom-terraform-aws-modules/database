@@ -1,6 +1,10 @@
 variable "identifier" {
   description = "Unique identifier to differentiate global resources."
   type        = string
+  validation {
+    condition     = length(var.identifier) > 2
+    error_message = "Identifier must be at least 3 characters"
+  }
 }
 
 variable "instance_class" {
